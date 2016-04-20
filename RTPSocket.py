@@ -197,10 +197,11 @@ class RTPSocket:
             print "\n Current Data Confirmation: " + str(self.dataToSendConfirmation) + "\n"
 
     def resendCloseReceiver(self):
-        packetToSend = RTPPacket(self.outgoingConnectionIP, self.outgoingConnectionPort, self.srcIP, self.portNumber, "closereceiver", 0, 0, self.dataToSendName)
-        self.socketManager.sendPacket(packetToSend)
-        self.closeReceiverTimer = threading.Timer(.2, self.resendCloseReceiver)
-        self.closeReceiverTimer.start()
+        if len(self.dataToSendConfirmation) != 0:
+            packetToSend = RTPPacket(self.outgoingConnectionIP, self.outgoingConnectionPort, self.srcIP, self.portNumber, "closereceiver", 0, 0, self.dataToSendName)
+            self.socketManager.sendPacket(packetToSend)
+            self.closeReceiverTimer = threading.Timer(.2, self.resendCloseReceiver)
+            self.closeReceiverTimer.start()
 
 
 ########################################
