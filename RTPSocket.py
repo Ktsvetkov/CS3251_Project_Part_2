@@ -204,9 +204,9 @@ class RTPSocket:
             self.closeReceiverTimer.start()
 
 
-#######################################
+########################################
 # Receiver Window Control Methods
-#######################################
+########################################
     def addReceiverData(self, index, dataToAdd):
         if index >= self.windowPosition and index < self.windowPosition + self.windowSize:
             if self.dataReceived[index] == "":
