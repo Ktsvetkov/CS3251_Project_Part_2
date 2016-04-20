@@ -183,25 +183,25 @@ class RTPSocket:
         self.connectTimer.start()
 
     def resendAccept(self):
-        if len(self.dataToSendConfirmation) == 0:
-            packetToSend = RTPPacket(self.outgoingConnectionIP, self.outgoingConnectionPort, self.srcIP, self.portNumber, "accept", 0, 1, "")
-            self.socketManager.sendPacket(packetToSend)
-            self.acceptTimer = threading.Timer(.2, self.resendAccept)
-            self.acceptTimer.start()
+        #if len(self.dataToSendConfirmation) == 0:
+        packetToSend = RTPPacket(self.outgoingConnectionIP, self.outgoingConnectionPort, self.srcIP, self.portNumber, "accept", 0, 1, "")
+        self.socketManager.sendPacket(packetToSend)
+        self.acceptTimer = threading.Timer(.2, self.resendAccept)
+        self.acceptTimer.start()
 
     def resendData(self):
-        if self.actualSenderWindowLength(self.dataToSendConfirmation) < len(self.dataToSend):
-            self.sendWindowOfPackets()
-            self.dataTimer = threading.Timer(.2, self.resendData)
-            self.dataTimer.start()
-            print "\n Current Data Confirmation: " + str(self.dataToSendConfirmation) + "\n"
+        #if self.actualSenderWindowLength(self.dataToSendConfirmation) < len(self.dataToSend):
+        self.sendWindowOfPackets()
+        self.dataTimer = threading.Timer(.2, self.resendData)
+        self.dataTimer.start()
+        print "\n Current Data Confirmation: " + str(self.dataToSendConfirmation) + "\n"
 
     def resendCloseReceiver(self):
-        if len(self.dataToSendConfirmation) != 0:
-            packetToSend = RTPPacket(self.outgoingConnectionIP, self.outgoingConnectionPort, self.srcIP, self.portNumber, "closereceiver", 0, 0, self.dataToSendName)
-            self.socketManager.sendPacket(packetToSend)
-            self.closeReceiverTimer = threading.Timer(.2, self.resendCloseReceiver)
-            self.closeReceiverTimer.start()
+        #if len(self.dataToSendConfirmation) != 0:
+        packetToSend = RTPPacket(self.outgoingConnectionIP, self.outgoingConnectionPort, self.srcIP, self.portNumber, "closereceiver", 0, 0, self.dataToSendName)
+        self.socketManager.sendPacket(packetToSend)
+        self.closeReceiverTimer = threading.Timer(.2, self.resendCloseReceiver)
+        self.closeReceiverTimer.start()
 
 
 ########################################
