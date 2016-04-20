@@ -183,11 +183,11 @@ class RTPSocket:
         self.connectTimer.start()
 
     def resendAccept(self):
-        #if len(self.dataToSendConfirmation) == 0:
-        packetToSend = RTPPacket(self.outgoingConnectionIP, self.outgoingConnectionPort, self.srcIP, self.portNumber, "accept", 0, 1, "")
-        self.socketManager.sendPacket(packetToSend)
-        self.acceptTimer = threading.Timer(.2, self.resendAccept)
-        self.acceptTimer.start()
+        if self.actualSenderWindowLength(self.dataToSendConfirmation) == 0:
+            packetToSend = RTPPacket(self.outgoingConnectionIP, self.outgoingConnectionPort, self.srcIP, self.portNumber, "accept", 0, 1, "")
+            self.socketManager.sendPacket(packetToSend)
+            self.acceptTimer = threading.Timer(.2, self.resendAccept)
+            self.acceptTimer.start()
 
     def resendData(self):
         #if self.actualSenderWindowLength(self.dataToSendConfirmation) < len(self.dataToSend):
