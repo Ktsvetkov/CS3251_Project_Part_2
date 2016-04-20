@@ -190,11 +190,11 @@ class RTPSocket:
             self.acceptTimer.start()
 
     def resendData(self):
-        #if self.actualSenderWindowLength(self.dataToSendConfirmation) < len(self.dataToSend):
-        self.sendWindowOfPackets()
-        self.dataTimer = threading.Timer(.2, self.resendData)
-        self.dataTimer.start()
-        print "\n Current Data Confirmation: " + str(self.dataToSendConfirmation) + "\n"
+        if self.actualSenderWindowLength(self.dataToSendConfirmation) < len(self.dataToSend):
+            self.sendWindowOfPackets()
+            self.dataTimer = threading.Timer(.2, self.resendData)
+            self.dataTimer.start()
+            print "\n Current Data Confirmation: " + str(self.dataToSendConfirmation) + "\n"
 
     def resendCloseReceiver(self):
         #if len(self.dataToSendConfirmation) != 0:
