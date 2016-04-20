@@ -5,7 +5,7 @@ import sys, select, socket
 import threading
 import time
 from termios import tcflush, TCIFLUSH
-
+import os.path
 
 def getDataArrayToSend(fileToSend):
     dataArray = []
@@ -26,11 +26,12 @@ def checkForDownloadedData():
     global askForInput
     while 1:
         ipAddressReceived, portNumberReceived,  dataArrayToDownload, dataName = socketGet.recvData()
-        fileToReceive = open("get_" + dataName, 'wb+')
-        for dataChunk in dataArrayToDownload:
-            fileToReceive.write(dataChunk)
-        fileToReceive.flush()
-        fileToReceive.close()
+        if not os.path.isfile("get_" + dataName):
+            fileToReceive = open("get_" + dataName, 'wb+')
+            for dataChunk in dataArrayToDownload:
+                fileToReceive.write(dataChunk)
+            fileToReceive.flush()
+            fileToReceive.close()
         askForInput = 0
 
 ########################################

@@ -25,11 +25,12 @@ def checkForDownloadedData():
     while 1:
         ipAddressReceived, portNumberReceived,  dataArrayToDownload, dataName = socketPost.recvData()
         if len(dataArrayReceived) != 0 and dataArrayToDownload[0] != "get":
-            fileToReceive = open("post_" + dataName, 'wb+')
-            for dataChunk in dataArrayToDownload:
-                fileToReceive.write(dataChunk)
-            fileToReceive.flush()
-            fileToReceive.close()
+            if not os.path.isfile("post_" + dataName):
+                fileToReceive = open("post_" + dataName, 'wb+')
+                for dataChunk in dataArrayToDownload:
+                    fileToReceive.write(dataChunk)
+                fileToReceive.flush()
+                fileToReceive.close()
             askForInput = 0
 
 ########################################
